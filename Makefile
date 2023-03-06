@@ -1,7 +1,10 @@
-install: npm ci
-		npx simple-git-hooks
+install: install-deps
 		
+
 lint:
 	npx eslint .
 test:
 	npm test
+
+install-deps:
+	npm ci
