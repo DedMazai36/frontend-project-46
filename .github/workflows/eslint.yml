@@ -1,0 +1,7 @@
+name: eslint check
+on: push
+jobs:
+  my-job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: make lint

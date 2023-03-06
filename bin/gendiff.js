@@ -12,8 +12,8 @@ program
 
 program
   .argument('<filepath1>')
-  .argument('<fileputh2>')
+  .argument('<filepath2>')
   .option('-f, --format <type>', 'output format')
-  .action((puth1, puth2) => console.log(genDiff(puth1, puth2)))
+  .action((path1, path2) => console.log(genDiff(path1, path2)));
 
 program.parse();
