@@ -1,12 +1,7 @@
-import path from 'path';
-import * as fs from 'node:fs';
 import _ from 'lodash';
+import getObjectFromFilePath from './parsers.js';
 
-const genDiff = (filePath1, filePath2) => {
-  const absFilePath1 = path.resolve('/home/andrey/frontend-project-46/', 'Files', filePath1);
-  const absFilePath2 = path.resolve('/home/andrey/frontend-project-46/', 'Files', filePath2);
-  const file1 = JSON.parse(fs.readFileSync(absFilePath1));
-  const file2 = JSON.parse(fs.readFileSync(absFilePath2));
+const getResultArray = (file1, file2) => {
   const namesOfFile1 = Object.getOwnPropertyNames(file1).sort();
   const namesOfFile2 = Object.getOwnPropertyNames(file2).sort();
 
@@ -16,32 +11,43 @@ const genDiff = (filePath1, filePath2) => {
     }
   });
   const filtredNamesOfFile2 = _.difference(namesOfFile2, namesOfFile1);
-  const intersectionNames = _.difference(_.intersection(namesOfFile1, namesOfFile2), filtredNamesOfFile1);
+  const intersectionNames = _.intersection(namesOfFile1, namesOfFile2);
+  const resultiIntersection = _.difference(intersectionNames, filtredNamesOfFile1);
+  const resultArray = [];
 
-  let resultString = '';
-
-  for (const name of filtredNamesOfFile1) {
+  filtredNamesOfFile1.forEach((name) => {
     const value = file1[name];
-    const message = `${name}: ${value}\n`;
+    const message = `${name}: ${value}`;
 
     if (_.intersection(namesOfFile1, namesOfFile2).indexOf(name) >= 0) {
-      resultString += `    ${message}`;
+      resultArray.push(`    ${message}`);
     } else {
-      resultString += `  - ${message}`;
+      resultArray.push(`  - ${message}`);
     }
-  }
-  for (const name of intersectionNames) {
-    const message = `  - ${name}: ${file1[name]}\n  + ${name}: ${file2[name]}\n`;
-    resultString += message;
-  }
-  for (const name of filtredNamesOfFile2) {
+  });
+
+  resultiIntersection.forEach((name) => {
+    const message = `  - ${name}: ${file1[name]}\n  + ${name}: ${file2[name]}`;
+    resultArray.push(message);
+  });
+
+  filtredNamesOfFile2.forEach((name) => {
     const value = file2[name];
-    const message = `${name}: ${value}\n`;
+    const message = `${name}: ${value}`;
+    resultArray.push(`  + ${message}`);
+  });
 
-    resultString += `  + ${message}`;
-  }
+  return resultArray;
+};
 
-  return `{\n${resultString}}`;
+const genDiff = (filePath1, filePath2) => {
+  const arrayOfFiles = getObjectFromFilePath(filePath1, filePath2);
+  const file1 = arrayOfFiles[0];
+  const file2 = arrayOfFiles[1];
+  const resultArray = getResultArray(file1, file2);
+  const resultString = `{\n${resultArray.join('\n')}\n}`;
+
+  return resultString;
 };
 
 export default genDiff;
