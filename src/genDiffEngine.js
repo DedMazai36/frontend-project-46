@@ -9,6 +9,7 @@ const getResultArray = (file1, file2) => {
     if (namesOfFile2.indexOf(name) < 0 || file1[name] === file2[name]) {
       return true;
     }
+    return false;
   });
   const filtredNamesOfFile2 = _.difference(namesOfFile2, namesOfFile1);
   const intersectionNames = _.intersection(namesOfFile1, namesOfFile2);
