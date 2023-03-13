@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable max-len */
 
 import { Command } from 'commander';
 import genDiff from '../src/genDiffEngine.js';
@@ -13,7 +14,10 @@ program
 program
   .argument('<filepath1>')
   .argument('<filepath2>')
-  .option('-f, --format <type>', 'output format')
-  .action((path1, path2) => console.log(genDiff(path1, path2)));
+  .option('-f, --format <type>', 'output format', 'first')
+  .action((filepath1, filepath2, options) => {
+    const format = options.format ? `${options.format}` : '';
+    return console.log(genDiff(filepath1, filepath2, format));
+  });
 
 program.parse();

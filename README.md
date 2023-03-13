@@ -7,3 +7,4 @@
 ## Asciinemas of project:
 
 Asciinema of the gendiff: https://asciinema.org/a/HPJCeckIT7WsQgnfvgH8m9IW3
+Asciinema of the step 6: https://asciinema.org/a/LdfeZyQsKv3UmyWhCmGhbCz4H
