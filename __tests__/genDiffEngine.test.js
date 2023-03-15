@@ -8,18 +8,33 @@ import genDiff from '../src/genDiffEngine.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const expectValue = fs.readFileSync(path.join(__dirname, '..', '__fixtures__', 'expectStringTest.txt'), { encoding: 'utf8', flag: 'r' });
+const expectStylish = fs.readFileSync(path.join(__dirname, '..', '__fixtures__', 'expectForStylishTest.txt'), { encoding: 'utf8', flag: 'r' });
+const expectPlain = fs.readFileSync(path.join(__dirname, '..', '__fixtures__', 'expectForPlainTest.txt'), { encoding: 'utf8', flag: 'r' });
 
-test('Testing function genDiff width .json', () => {
+test('Testing stylish width .json', () => {
   const filePath1 = path.join(__dirname, '..', '__fixtures__', 'file1.json');
   const filePath2 = path.join(__dirname, '..', '__fixtures__', 'file2.json');
 
-  expect(genDiff(filePath1, filePath2, 'first')).toBe(expectValue);
+  expect(genDiff(filePath1, filePath2, 'stylish')).toBe(expectStylish);
 });
 
-test('Testing function genDiff width .yaml', () => {
+test('Testing stylish width .yaml', () => {
   const filePath1 = path.join(__dirname, '..', '__fixtures__', 'file1.yaml');
   const filePath2 = path.join(__dirname, '..', '__fixtures__', 'file2.yaml');
 
-  expect(genDiff(filePath1, filePath2, 'first')).toBe(expectValue);
+  expect(genDiff(filePath1, filePath2, 'stylish')).toBe(expectStylish);
+});
+
+test('Testing plain width .json', () => {
+  const filePath1 = path.join(__dirname, '..', '__fixtures__', 'file1.yaml');
+  const filePath2 = path.join(__dirname, '..', '__fixtures__', 'file2.yaml');
+
+  expect(genDiff(filePath1, filePath2, 'plain')).toBe(expectPlain);
+});
+
+test('Testing plain width .yaml', () => {
+  const filePath1 = path.join(__dirname, '..', '__fixtures__', 'file1.yaml');
+  const filePath2 = path.join(__dirname, '..', '__fixtures__', 'file2.yaml');
+
+  expect(genDiff(filePath1, filePath2, 'plain')).toBe(expectPlain);
 });

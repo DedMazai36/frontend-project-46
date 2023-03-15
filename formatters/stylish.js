@@ -1,32 +1,6 @@
 /* eslint-disable max-len */
 import _ from 'lodash';
-
-const getFiltredNames = (object1, object2) => {
-  const namesOfFile1 = Object.getOwnPropertyNames(object1).sort();
-  const namesOfFile2 = Object.getOwnPropertyNames(object2).sort();
-
-  const filtredNamesOfFile1 = [...namesOfFile1].filter((name) => {
-    const stringOfObject1 = JSON.stringify(object1[name]);
-    const stringOfObject2 = JSON.stringify(object2[name]);
-    if (namesOfFile2.indexOf(name) < 0 || stringOfObject1 === stringOfObject2) {
-      return true;
-    } return false;
-  });
-
-  const filtredNamesOfFile2 = _.difference(namesOfFile2, namesOfFile1);
-
-  const intersectionNames = _.intersection(namesOfFile1, namesOfFile2);
-  const resultiIntersection = _.difference(intersectionNames, filtredNamesOfFile1);
-
-  return [filtredNamesOfFile1, resultiIntersection, filtredNamesOfFile2];
-};
-
-const isObject = (object) => {
-  if (typeof object === 'object' && !Array.isArray(object) && object !== null) {
-    return true;
-  }
-  return false;
-};
+import { getFiltredNames, isObject } from './formattersEngine.js';
 
 const getStringForObject1 = (name, object1, object2, namesOfFile1, replacer, spacesCount) => {
   const message = `${name}: ${object1[name]}`;
@@ -73,7 +47,8 @@ const iterForSimpleObject = (object, replacer, spacesCount) => {
   return resultArrayOfStrings.join('\n');
 };
 
-const stylish = (arrayOfNames, object1, object2, replacer = '  ', spacesCount = 1) => {
+const stylish = (object1, object2, replacer = '  ', spacesCount = 1) => {
+  const arrayOfNames = getFiltredNames(object1, object2);
   const filtredNamesOfObject1 = arrayOfNames[0];
   const filtredNamesOfIntersection = arrayOfNames[1];
   const filtredNamesOfObject2 = arrayOfNames[2];
@@ -123,8 +98,7 @@ const stylish = (arrayOfNames, object1, object2, replacer = '  ', spacesCount = 
     if (isObject(value) && filtredNamesOfIntersection.indexOf(name) >= 0) {
       if (isObject(object1[name]) && isObject(object2[name])) {
         resultArrayOfStrings.push(`${replacer.repeat(spacesCount)}  ${name}: {`);
-        const filtredNamesOfNewObjects = getFiltredNames(object1[name], object2[name]);
-        resultArrayOfStrings.push(stylish(filtredNamesOfNewObjects, object1[name], object2[name], replacer, spacesCount + 2));
+        resultArrayOfStrings.push(stylish(object1[name], object2[name], replacer, spacesCount + 2));
         resultArrayOfStrings.push(`${replacer.repeat(spacesCount)}  }`);
       } else if (isObject(object1[name]) || isObject(object2[name])) {
         let string;
@@ -148,7 +122,7 @@ const stylish = (arrayOfNames, object1, object2, replacer = '  ', spacesCount = 
     }
   });
 
-  return resultArrayOfStrings.join('\n');
+  return `${resultArrayOfStrings.join('\n')}`;
 };
 
-export { stylish, getFiltredNames };
+export { stylish, getFiltredNames, isObject };

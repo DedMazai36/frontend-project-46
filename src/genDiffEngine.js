@@ -1,21 +1,13 @@
 import getObjectFromFilePath from './parsers.js';
-import { stylish, getFiltredNames } from './stylish.js';
+import getFormattedString from '../formatters/index.js';
 
-const genDiff = (filePath1, filePath2, stylishType) => {
+const genDiff = (filePath1, filePath2, formatType) => {
   const arrayOfFiles = getObjectFromFilePath(filePath1, filePath2);
   const file1 = arrayOfFiles[0];
   const file2 = arrayOfFiles[1];
-  const arrayOfNames = getFiltredNames(file1, file2);
-  let resultString;
-  switch (stylishType) {
-    case 'first':
-      resultString = stylish(arrayOfNames, file1, file2);
-      break;
-    default:
-      resultString = 'unknown stylish name';
-  }
+  const result = getFormattedString(file1, file2, formatType);
 
-  return `{\n${resultString}\n}`;
+  return result;
 };
 
 export default genDiff;

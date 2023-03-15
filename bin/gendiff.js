@@ -14,9 +14,9 @@ program
 program
   .argument('<filepath1>')
   .argument('<filepath2>')
-  .option('-f, --format <type>', 'output format', 'first')
+  .option('-f, --format <type>', 'output format')
   .action((filepath1, filepath2, options) => {
-    const format = options.format ? `${options.format}` : '';
+    const format = options.format ? `${options.format}` : 'stylish';
     return console.log(genDiff(filepath1, filepath2, format));
   });
 
