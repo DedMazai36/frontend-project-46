@@ -10,6 +10,7 @@ const __dirname = dirname(__filename);
 
 const expectStylish = fs.readFileSync(path.join(__dirname, '..', '__fixtures__', 'expectForStylishTest.txt'), { encoding: 'utf8', flag: 'r' });
 const expectPlain = fs.readFileSync(path.join(__dirname, '..', '__fixtures__', 'expectForPlainTest.txt'), { encoding: 'utf8', flag: 'r' });
+const expectJson = fs.readFileSync(path.join(__dirname, '..', '__fixtures__', 'expectForJsonTest.json'), { encoding: 'utf8', flag: 'r' });
 
 test('Testing stylish width .json', () => {
   const filePath1 = path.join(__dirname, '..', '__fixtures__', 'file1.json');
@@ -37,4 +38,20 @@ test('Testing plain width .yaml', () => {
   const filePath2 = path.join(__dirname, '..', '__fixtures__', 'file2.yaml');
 
   expect(genDiff(filePath1, filePath2, 'plain')).toBe(expectPlain);
+});
+
+test('Testing json width .json', () => {
+  const filePath1 = path.join(__dirname, '..', '__fixtures__', 'file1.json');
+  const filePath2 = path.join(__dirname, '..', '__fixtures__', 'file2.json');
+  genDiff(filePath1, filePath2, 'json');
+  const resultJson = fs.readFileSync(path.join(__dirname, '..', '__fixtures__', 'jsonResult.json'), { encoding: 'utf8', flag: 'r' });
+  expect(resultJson).toBe(expectJson);
+});
+
+test('Testing json width .yaml', () => {
+  const filePath1 = path.join(__dirname, '..', '__fixtures__', 'file1.yaml');
+  const filePath2 = path.join(__dirname, '..', '__fixtures__', 'file2.yaml');
+  genDiff(filePath1, filePath2, 'json');
+  const resultJson = fs.readFileSync(path.join(__dirname, '..', '__fixtures__', 'jsonResult.json'), { encoding: 'utf8', flag: 'r' });
+  expect(resultJson).toBe(expectJson);
 });
