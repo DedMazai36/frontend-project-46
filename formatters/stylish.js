@@ -183,4 +183,4 @@ const stylish = (object1, object2, replacer = '  ', spacesCount = 1) => {
   return `${resultArrayOfStrings.join('\n')}`;
 };
 
-export { stylish, getFiltredNames, isObject };
+export default stylish;

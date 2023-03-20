@@ -1,5 +1,5 @@
 import * as fs from 'node:fs';
-import { stylish } from './stylish.js';
+import stylish from './stylish.js';
 import plain from './plain.js';
 import json from './json.js';
 

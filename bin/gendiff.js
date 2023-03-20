@@ -1,6 +1,3 @@
-#!/usr/bin/env node
-/* eslint-disable max-len */
-
 import { Command } from 'commander';
 import genDiff from '../src/genDiffEngine.js';
 
