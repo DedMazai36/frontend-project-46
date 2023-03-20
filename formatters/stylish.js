@@ -25,19 +25,6 @@ const getStringForObject2 = (name, object, replacer, spacesCount) => {
   return `${replacer.repeat(spacesCount)}+ ${message}`;
 };
 
-const getStringForIntersection = (
-  name,
-  object1,
-  object2,
-  replacer,
-  spacesCount,
-) => {
-  const message = `${replacer.repeat(spacesCount)}- ${name}: ${
-    object1[name]
-  }\n${replacer.repeat(spacesCount)}+ ${name}: ${object2[name]}`;
-  return message;
-};
-
 const getStringForSimpleObject = (
   name,
   object,
@@ -86,36 +73,61 @@ const stylish = (object1, object2, replacer = '  ', spacesCount = 1) => {
   const resultArrayOfStrings = [];
 
   arrayForSort.forEach((name) => {
-    let value;
-    if (Object.getOwnPropertyNames(object1).indexOf(name) >= 0) {
-      value = object1[name];
-    } else {
-      value = object2[name];
+    if (filtredNamesOfObject1.includes(name)) {
+      if (Object.getOwnPropertyNames(object2).includes(name)) {
+        if (isObject(object1[name])) {
+          const string = `${replacer.repeat(spacesCount)}  ${name}: {`;
+          resultArrayOfStrings.push(string);
+          resultArrayOfStrings.push(
+            iterForSimpleObject(object1[name], replacer, spacesCount + 2),
+          );
+          resultArrayOfStrings.push(`${replacer.repeat(spacesCount)}  }`);
+        }
+        if (!isObject(object1[name])) {
+          const string = getStringForObject1(
+            name,
+            object1,
+            object2,
+            filtredNamesOfObject1,
+            replacer,
+            spacesCount,
+          );
+          resultArrayOfStrings.push(string);
+        }
+      }
+      if (!Object.getOwnPropertyNames(object2).includes(name)) {
+        if (isObject(object1[name])) {
+          const string = `${replacer.repeat(spacesCount)}- ${name}: {`;
+          resultArrayOfStrings.push(string);
+          resultArrayOfStrings.push(
+            iterForSimpleObject(object1[name], replacer, spacesCount + 2),
+          );
+          resultArrayOfStrings.push(`${replacer.repeat(spacesCount)}  }`);
+        }
+        if (!isObject(object1[name])) {
+          const string = getStringForObject1(
+            name,
+            object1,
+            object2,
+            filtredNamesOfObject1,
+            replacer,
+            spacesCount,
+          );
+          resultArrayOfStrings.push(string);
+        }
+      }
     }
 
-    if (!isObject(value)) {
-      if (filtredNamesOfObject1.indexOf(name) >= 0) {
-        const string = getStringForObject1(
-          name,
-          object1,
-          object2,
-          filtredNamesOfObject1,
-          replacer,
-          spacesCount,
-        );
+    if (filtredNamesOfObject2.includes(name)) {
+      if (isObject(object2[name])) {
+        const string = `${replacer.repeat(spacesCount)}+ ${name}: {`;
         resultArrayOfStrings.push(string);
-      }
-      if (filtredNamesOfIntersection.indexOf(name) >= 0) {
-        const string = getStringForIntersection(
-          name,
-          object1,
-          object2,
-          replacer,
-          spacesCount,
+        resultArrayOfStrings.push(
+          iterForSimpleObject(object2[name], replacer, spacesCount + 2),
         );
-        resultArrayOfStrings.push(string);
+        resultArrayOfStrings.push(`${replacer.repeat(spacesCount)}  }`);
       }
-      if (filtredNamesOfObject2.indexOf(name) >= 0) {
+      if (!isObject(object2[name])) {
         const string = getStringForObject2(
           name,
           object2,
@@ -126,25 +138,45 @@ const stylish = (object1, object2, replacer = '  ', spacesCount = 1) => {
       }
     }
 
-    if (isObject(value) && filtredNamesOfIntersection.indexOf(name) < 0) {
-      let string;
-      if (filtredNamesOfObject1.indexOf(name) >= 0) {
-        if (Object.getOwnPropertyNames(object2).indexOf(name) >= 0) {
-          string = `${replacer.repeat(spacesCount)}  ${name}: {`;
+    if (filtredNamesOfIntersection.includes(name)) {
+      if (!(isObject(object1[name]) && isObject(object2[name]))) {
+        if (isObject(object1[name])) {
+          const string = `${replacer.repeat(spacesCount)}- ${name}: {`;
+          resultArrayOfStrings.push(string);
+          resultArrayOfStrings.push(
+            iterForSimpleObject(object1[name], replacer, spacesCount + 2),
+          );
+          resultArrayOfStrings.push(`${replacer.repeat(spacesCount)}  }`);
         }
-        string = `${replacer.repeat(spacesCount)}- ${name}: {`;
+        if (!isObject(object1[name])) {
+          const string = getStringForObject1(
+            name,
+            object1,
+            object2,
+            filtredNamesOfObject1,
+            replacer,
+            spacesCount,
+          );
+          resultArrayOfStrings.push(string);
+        }
+        if (isObject(object2[name])) {
+          const string = `${replacer.repeat(spacesCount)}+ ${name}: {`;
+          resultArrayOfStrings.push(string);
+          resultArrayOfStrings.push(
+            iterForSimpleObject(object2[name], replacer, spacesCount + 2),
+          );
+          resultArrayOfStrings.push(`${replacer.repeat(spacesCount)}  }`);
+        }
+        if (!isObject(object2[name])) {
+          const string = getStringForObject2(
+            name,
+            object2,
+            replacer,
+            spacesCount,
+          );
+          resultArrayOfStrings.push(string);
+        }
       } else {
-        string = `${replacer.repeat(spacesCount)}+ ${name}: {`;
-      }
-      resultArrayOfStrings.push(string);
-      resultArrayOfStrings.push(
-        iterForSimpleObject(value, replacer, spacesCount + 2),
-      );
-      resultArrayOfStrings.push(`${replacer.repeat(spacesCount)}  }`);
-    }
-
-    if (isObject(value) && filtredNamesOfIntersection.indexOf(name) >= 0) {
-      if (isObject(object1[name]) && isObject(object2[name])) {
         resultArrayOfStrings.push(
           `${replacer.repeat(spacesCount)}  ${name}: {`,
         );
@@ -152,30 +184,6 @@ const stylish = (object1, object2, replacer = '  ', spacesCount = 1) => {
           stylish(object1[name], object2[name], replacer, spacesCount + 2),
         );
         resultArrayOfStrings.push(`${replacer.repeat(spacesCount)}  }`);
-      } else if (isObject(object1[name]) || isObject(object2[name])) {
-        let string;
-        if (filtredNamesOfObject1.indexOf(name) >= 0) {
-          if (Object.getOwnPropertyNames(object2).indexOf(name) >= 0) {
-            string = `${replacer.repeat(spacesCount)}  ${name}: {`;
-          }
-          string = `${replacer.repeat(spacesCount)}+ ${name}: {`;
-        } else {
-          string = `${replacer.repeat(spacesCount)}- ${name}: {`;
-        }
-        resultArrayOfStrings.push(string);
-        resultArrayOfStrings.push(
-          iterForSimpleObject(value, replacer, spacesCount + 2),
-        );
-        resultArrayOfStrings.push(`${replacer.repeat(spacesCount)}  }`);
-      }
-      if (!isObject(object1[name])) {
-        resultArrayOfStrings.push(
-          getStringForSimpleObject(name, object1, replacer, spacesCount, 1),
-        );
-      } else if (!isObject(object2[name])) {
-        resultArrayOfStrings.push(
-          getStringForSimpleObject(name, object2, replacer, spacesCount, 2),
-        );
       }
     }
   });

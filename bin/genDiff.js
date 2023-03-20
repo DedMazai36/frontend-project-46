@@ -4,7 +4,7 @@ import genDiff from '../src/genDiffEngine.js';
 const program = new Command();
 
 program
-  .name('gendiff')
+  .name('genDiff')
   .description('Compares two configuration files and shows a difference.')
   .version('1.0.0');
 
