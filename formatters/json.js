@@ -28,7 +28,10 @@ const json = (object1, object2) => {
     if (filtredNamesOfIntersection.includes(name)) {
       if (isObject(object1[name]) && isObject(object2[name])) {
         resultObject.status = 'updated';
-        resultObject.value = json(_.cloneDeep(object1[name]), _.cloneDeep(object2[name]));
+        resultObject.value = json(
+          _.cloneDeep(object1[name]),
+          _.cloneDeep(object2[name]),
+        );
       } else {
         resultObject.status = 'updated';
         resultObject.value = _.cloneDeep(object2[name]);

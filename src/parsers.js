@@ -1,16 +1,13 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-undef */
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import * as fs from 'node:fs';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import yaml from 'js-yaml';
 
 const getObjectFromFilePath = (filePath1, filePath2) => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const absoluteFilePath1 = path.resolve(__dirname, '..', 'Files', filePath1);
-  const absoluteFilePath2 = path.resolve(__dirname, '..', 'Files', filePath2);
+  const filename = fileURLToPath(import.meta.url);
+  const directory = dirname(filename);
+  const absoluteFilePath1 = path.resolve(directory, '..', 'Files', filePath1);
+  const absoluteFilePath2 = path.resolve(directory, '..', 'Files', filePath2);
   let file1;
   let file2;
 

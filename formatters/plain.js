@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { getFiltredNames, isObject } from './formattersEngine.js';
 
 const ifStringAddApostrophe = (str) => {
@@ -19,27 +18,65 @@ const plain = (object1, object2, path = '') => {
     const cumulativePath = `${path}.${name}`;
     if (filtredNamesOfObject1.includes(name)) {
       if (!Object.getOwnPropertyNames(object2).includes(name)) {
-        resultArrayOfStrings.push(`Property '${cumulativePath.slice(1, cumulativePath.length)}' was removed`);
+        resultArrayOfStrings.push(
+          `Property '${cumulativePath.slice(
+            1,
+            cumulativePath.length,
+          )}' was removed`,
+        );
       }
     }
     if (filtredNamesOfObject2.includes(name)) {
       if (!isObject(object2[name])) {
-        resultArrayOfStrings.push(`Property '${cumulativePath.slice(1, cumulativePath.length)}' was added with value: ${ifStringAddApostrophe(object2[name])}`);
+        resultArrayOfStrings.push(
+          `Property '${cumulativePath.slice(
+            1,
+            cumulativePath.length,
+          )}' was added with value: ${ifStringAddApostrophe(object2[name])}`,
+        );
       } else {
-        resultArrayOfStrings.push(`Property '${cumulativePath.slice(1, cumulativePath.length)}' was added with value: [complex value]`);
+        resultArrayOfStrings.push(
+          `Property '${cumulativePath.slice(
+            1,
+            cumulativePath.length,
+          )}' was added with value: [complex value]`,
+        );
       }
     }
     if (filtredNamesOfIntersection.includes(name)) {
       if (!isObject(object1[name])) {
         if (!isObject(object2[name])) {
-          resultArrayOfStrings.push(`Property '${cumulativePath.slice(1, cumulativePath.length)}' was updated. From ${ifStringAddApostrophe(object1[name])} to ${ifStringAddApostrophe(object2[name])}`);
+          resultArrayOfStrings.push(
+            `Property '${cumulativePath.slice(
+              1,
+              cumulativePath.length,
+            )}' was updated. From ${ifStringAddApostrophe(
+              object1[name],
+            )} to ${ifStringAddApostrophe(object2[name])}`,
+          );
         } else {
-          resultArrayOfStrings.push(`Property '${cumulativePath.slice(1, cumulativePath.length)}' was updated. From ${ifStringAddApostrophe(object1[name])} to [complex value]`);
+          resultArrayOfStrings.push(
+            `Property '${cumulativePath.slice(
+              1,
+              cumulativePath.length,
+            )}' was updated. From ${ifStringAddApostrophe(
+              object1[name],
+            )} to [complex value]`,
+          );
         }
       } else if (!isObject(object2[name])) {
-        resultArrayOfStrings.push(`Property '${cumulativePath.slice(1, cumulativePath.length)}' was updated. From [complex value] to ${ifStringAddApostrophe(object2[name])}`);
+        resultArrayOfStrings.push(
+          `Property '${cumulativePath.slice(
+            1,
+            cumulativePath.length,
+          )}' was updated. From [complex value] to ${ifStringAddApostrophe(
+            object2[name],
+          )}`,
+        );
       } else {
-        resultArrayOfStrings.push(plain(object1[name], object2[name], cumulativePath));
+        resultArrayOfStrings.push(
+          plain(object1[name], object2[name], cumulativePath),
+        );
       }
     }
   });
