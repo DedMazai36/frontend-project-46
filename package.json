@@ -2,9 +2,9 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/DedMazai36/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/DedMazai36/frontend-project-46/actions)",
-  "main": "./bin/gendiff.js",
+  "main": "./src/genDiffEngine.js",
   "bin": {
-    "gendiff": "./src/genDiffEngine.js"
+    "genDiff": "./bin/genDiff.js"
   },
   "type": "module",
   "scripts": {
