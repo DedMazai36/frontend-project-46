@@ -4,7 +4,7 @@
   "description": "[![Actions Status](https://github.com/DedMazai36/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/DedMazai36/frontend-project-46/actions)",
   "main": "./src/genDiffEngine.js",
   "bin": {
-    "genDiff": "./bin/genDiff.js"
+    "genDiff": "bin/genDiff.js"
   },
   "type": "module",
   "scripts": {
