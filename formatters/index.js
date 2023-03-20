@@ -3,22 +3,16 @@ import plain from './plain.js';
 import json from './json.js';
 
 const getFormattedString = (file1, file2, formatType) => {
-  let resultString;
   switch (formatType) {
     case 'stylish':
-      resultString = `{\n${stylish(file1, file2)}\n}`;
-      break;
+      return `{\n${stylish(file1, file2)}\n}`;
     case 'plain':
-      resultString = plain(file1, file2).flat(10).join('\n');
-      break;
+      return plain(file1, file2).flat(10).join('\n');
     case 'json':
-      resultString = JSON.stringify(json(file1, file2));
-      break;
+      return JSON.stringify(json(file1, file2));
     default:
-      resultString = 'Unknown format name';
+      return 'Unknown format name';
   }
-
-  return resultString;
 };
 
 export default getFormattedString;

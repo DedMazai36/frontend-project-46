@@ -6,10 +6,10 @@ const json = (object1, object2) => {
   const filtredNamesOfObject1 = arrayOfNames[0];
   const filtredNamesOfIntersection = arrayOfNames[1];
   const filtredNamesOfObject2 = arrayOfNames[2];
-  const arrayForSort = arrayOfNames.flat(10).sort();
-  const resultArray = [];
+  const arrayForSort = [...arrayOfNames].flat(10).sort();
+  // const resultArray = [];
 
-  arrayForSort.forEach((name) => {
+  const resultArray = arrayForSort.map((name) => {
     const resultObject = {};
     resultObject.key = name;
 
@@ -38,7 +38,7 @@ const json = (object1, object2) => {
       }
     }
 
-    resultArray.push(_.cloneDeep(resultObject));
+    return _.cloneDeep(resultObject);
   });
 
   return resultArray;
