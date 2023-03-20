@@ -42,15 +42,11 @@ test('Testing plain width .yaml', () => {
 test('Testing json width .json', () => {
   const filePath1 = path.join(directory, '..', '__fixtures__', 'file1.json');
   const filePath2 = path.join(directory, '..', '__fixtures__', 'file2.json');
-  genDiff(filePath1, filePath2, 'json');
-  const resultJson = fs.readFileSync(path.join(directory, '..', '__fixtures__', 'jsonResult.json'), { encoding: 'utf8', flag: 'r' });
-  expect(resultJson).toBe(expectJson);
+  expect(genDiff(filePath1, filePath2, 'json')).toBe(expectJson);
 });
 
 test('Testing json width .yaml', () => {
   const filePath1 = path.join(directory, '..', '__fixtures__', 'file1.yaml');
   const filePath2 = path.join(directory, '..', '__fixtures__', 'file2.yaml');
-  genDiff(filePath1, filePath2, 'json');
-  const resultJson = fs.readFileSync(path.join(directory, '..', '__fixtures__', 'jsonResult.json'), { encoding: 'utf8', flag: 'r' });
-  expect(resultJson).toBe(expectJson);
+  expect(genDiff(filePath1, filePath2, 'json')).toBe(expectJson);
 });
