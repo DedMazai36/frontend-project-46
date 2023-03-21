@@ -1,5 +1,5 @@
 # Name of workflow
-name: internal check
+name: internal-check
 
 # Trigger the workflow on push or pull request
 on:
