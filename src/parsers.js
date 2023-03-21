@@ -8,18 +8,19 @@ const getObjectFromFilePath = (filePath1, filePath2) => {
   const directory = dirname(filename);
   const absoluteFilePath1 = path.resolve(directory, '..', 'Files', filePath1);
   const absoluteFilePath2 = path.resolve(directory, '..', 'Files', filePath2);
-  let file1;
-  let file2;
 
   if (absoluteFilePath1.endsWith('.json') && absoluteFilePath2.endsWith('.json')) {
-    file1 = JSON.parse(fs.readFileSync(absoluteFilePath1));
-    file2 = JSON.parse(fs.readFileSync(absoluteFilePath2));
-  } else if ((absoluteFilePath1.endsWith('.yaml') && absoluteFilePath2.endsWith('.yaml')) || (absoluteFilePath1.endsWith('.yml') && absoluteFilePath2.endsWith('.yml'))) {
-    file1 = yaml.load(fs.readFileSync(absoluteFilePath1));
-    file2 = yaml.load(fs.readFileSync(absoluteFilePath2));
+    const file1 = JSON.parse(fs.readFileSync(absoluteFilePath1));
+    const file2 = JSON.parse(fs.readFileSync(absoluteFilePath2));
+    return [file1, file2];
+  }
+  if ((absoluteFilePath1.endsWith('.yaml') && absoluteFilePath2.endsWith('.yaml')) || (absoluteFilePath1.endsWith('.yml') && absoluteFilePath2.endsWith('.yml'))) {
+    const file1 = yaml.load(fs.readFileSync(absoluteFilePath1));
+    const file2 = yaml.load(fs.readFileSync(absoluteFilePath2));
+    return [file1, file2];
   }
 
-  return [file1, file2];
+  return [undefined, undefined];
 };
 
 export default getObjectFromFilePath;
