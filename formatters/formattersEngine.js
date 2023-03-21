@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 const getFiltredNames = (object1, object2) => {
-  const namesOfFile1 = Object.getOwnPropertyNames(object1).sort();
-  const namesOfFile2 = Object.getOwnPropertyNames(object2).sort();
+  const namesOfFile1 = _.sortBy(Object.getOwnPropertyNames(object1));
+  const namesOfFile2 = _.sortBy(Object.getOwnPropertyNames(object2));
 
   const filtredNamesOfFile1 = [...namesOfFile1].filter((name) => {
     const stringOfObject1 = JSON.stringify(object1[name]);
