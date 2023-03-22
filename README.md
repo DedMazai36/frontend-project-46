@@ -54,6 +54,6 @@ $ gendiff -f json file1.json file2.json
 
 Asciinema of the gendiff: <a href="https://asciinema.org/a/HPJCeckIT7WsQgnfvgH8m9IW3" target="_blank"><img src="https://asciinema.org/a/HPJCeckIT7WsQgnfvgH8m9IW3.svg" /></a>
 
-Asciinema of the step 6: https://asciinema.org/a/LdfeZyQsKv3UmyWhCmGhbCz4H
+Asciinema of the step 6: <a href="https://asciinema.org/a/LdfeZyQsKv3UmyWhCmGhbCz4H" target="_blank"><img src="https://asciinema.org/a/LdfeZyQsKv3UmyWhCmGhbCz4H.svg" /></a>
 
-Asciinema of the step 7: https://asciinema.org/a/0za9ewPSTnzZbb48lt9RvmbHR
+Asciinema of the step 7: <a href="https://asciinema.org/a/0za9ewPSTnzZbb48lt9RvmbHR" target="_blank"><img src="https://asciinema.org/a/0za9ewPSTnzZbb48lt9RvmbHR.svg" /></a>
