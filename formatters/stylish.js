@@ -45,7 +45,6 @@ const stylish = (object1, object2, spacesCount = 1) => {
     allNames,
   ] = arrayOfNames;
   const arrayForSort = _.sortBy(allNames);
-  console.log(allNames);
   const resultArrayOfStrings = arrayForSort.map((name) => {
     if (uniqueNamesOfFile1.includes(name)) {
       return getResultString(object1, name, '- ', spacesCount);
