@@ -1,75 +1,64 @@
 import _ from 'lodash';
 import { getFiltredNames, isObject } from './formattersEngine.js';
 
-const ifStringAddApostrophe = (str) => {
+const ifStringAddApostropheOrComplexValue = (str) => {
+  if (isObject(str)) return '[complex value]';
   if (typeof str === 'string') {
     return `'${str}'`;
   }
   return str;
 };
 
-const plain = (object1, object2, path = '') => {
-  const arrayOfNames = getFiltredNames(object1, object2);
-  const [filtredNamesOfObject1,
-    filtredNamesOfIntersection,
-    filtredNamesOfObject2] = arrayOfNames;
-  const arrayForSort = _.sortBy(arrayOfNames.flat(10));
+const getStringForIntersection = (cumulativePath, object1, object2, name) => (
+  `Property '${cumulativePath.slice(
+    1,
+    cumulativePath.length,
+  )}' was updated. From ${ifStringAddApostropheOrComplexValue(
+    object1[name],
+  )} to ${ifStringAddApostropheOrComplexValue(object2[name])}`);
 
-  const resultArrayOfStrings = arrayForSort.map((name) => {
-    const cumulativePath = `${path}.${name}`;
-    if (filtredNamesOfObject1.includes(name)) {
-      if (!Object.getOwnPropertyNames(object2).includes(name)) {
-        return (
-          `Property '${cumulativePath.slice(
-            1,
-            cumulativePath.length,
-          )}' was removed`);
-      }
-    }
-    if (filtredNamesOfObject2.includes(name)) {
-      if (!isObject(object2[name])) {
-        return (
-          `Property '${cumulativePath.slice(
-            1,
-            cumulativePath.length,
-          )}' was added with value: ${ifStringAddApostrophe(object2[name])}`);
-      }
+const getResultString = (cumulativePath, actionString, object1, object2, name) => {
+  switch (actionString) {
+    case 'was added with value:':
       return (
         `Property '${cumulativePath.slice(
           1,
           cumulativePath.length,
-        )}' was added with value: [complex value]`);
-    }
-    if (filtredNamesOfIntersection.includes(name)) {
-      if (!isObject(object1[name])) {
-        if (!isObject(object2[name])) {
-          return (
-            `Property '${cumulativePath.slice(
-              1,
-              cumulativePath.length,
-            )}' was updated. From ${ifStringAddApostrophe(
-              object1[name],
-            )} to ${ifStringAddApostrophe(object2[name])}`);
-        }
-        return (
-          `Property '${cumulativePath.slice(
-            1,
-            cumulativePath.length,
-          )}' was updated. From ${ifStringAddApostrophe(
-            object1[name],
-          )} to [complex value]`);
-      }
-      if (!isObject(object2[name])) {
-        return (
-          `Property '${cumulativePath.slice(
-            1,
-            cumulativePath.length,
-          )}' was updated. From [complex value] to ${ifStringAddApostrophe(
-            object2[name],
-          )}`);
-      }
+        )}' ${actionString} ${ifStringAddApostropheOrComplexValue(object2[name])}`);
+    case 'was removed':
       return (
-        plain(object1[name], object2[name], cumulativePath));
+        `Property '${cumulativePath.slice(
+          1,
+          cumulativePath.length,
+        )}' ${actionString}`);
+    default:
+      return getStringForIntersection(cumulativePath, object1, object2, name);
+  }
+};
+
+const plain = (object1, object2, path = '') => {
+  const arrayOfNames = getFiltredNames(object1, object2);
+  const [
+    uniqueNamesOfFile1,
+    uniqueNamesOfFile2,
+    intersectionWidthDifference,
+    allNames,
+  ] = arrayOfNames;
+  const arrayForSort = _.sortBy(allNames);
+
+  const resultArrayOfStrings = arrayForSort.map((name) => {
+    const cumulativePath = `${path}.${name}`;
+    if (uniqueNamesOfFile2.includes(name)) {
+      return getResultString(cumulativePath, 'was added with value:', object1, object2, name);
+    }
+    if (uniqueNamesOfFile1.includes(name)) {
+      return getResultString(cumulativePath, 'was removed', object1, object2, name);
+    }
+    if (intersectionWidthDifference.includes(name)) {
+      if (!(isObject(object1[name]) && isObject(object2[name]))) {
+        return getResultString(cumulativePath, '', object1, object2, name);
+      }
+      return plain(object1[name], object2[name], cumulativePath);
     }
     return [];
   });
