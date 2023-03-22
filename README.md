@@ -52,8 +52,7 @@ $ gendiff -f json file1.json file2.json
 
 ## Asciinemas of project:
 
-Asciinema of the gendiff:
-<script async id="asciicast-HPJCeckIT7WsQgnfvgH8m9IW3" src="https://asciinema.org/a/HPJCeckIT7WsQgnfvgH8m9IW3.js"></script>
+Asciinema of the gendiff: <a href="https://asciinema.org/a/HPJCeckIT7WsQgnfvgH8m9IW3" target="_blank"><img src="https://asciinema.org/a/HPJCeckIT7WsQgnfvgH8m9IW3.svg" /></a>
 
 Asciinema of the step 6: https://asciinema.org/a/LdfeZyQsKv3UmyWhCmGhbCz4H
 
