@@ -26,7 +26,7 @@ describe('Testing .json files', () => {
     ['stylish', filePath1, filePath2, expectStylish],
     ['plain', filePath1, filePath2, expectPlain],
     ['json', filePath1, filePath2, expectJson],
-  ])('Test %s', (formatter, path1, path2, expected) => {
+  ])('Formatter %s', (formatter, path1, path2, expected) => {
     expect(genDiff(path1, path2, formatter)).toBe(expected);
   });
 });
@@ -38,7 +38,7 @@ describe('Testing .yaml files', () => {
     ['stylish', filePath1, filePath2, expectStylish],
     ['plain', filePath1, filePath2, expectPlain],
     ['json', filePath1, filePath2, expectJson],
-  ])('Test %s', (formatter, path1, path2, expected) => {
+  ])('Formatter %s', (formatter, path1, path2, expected) => {
     expect(genDiff(path1, path2, formatter)).toBe(expected);
   });
 });
