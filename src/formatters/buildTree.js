@@ -14,19 +14,16 @@ const getTypeForValue = (value) => {
 };
 
 const getStatus = (name, data1, data2) => {
-  if (_.has(data1, name) && !_.has(data2, name)) {
+  if (Object.hasOwn(data1, name) && !Object.hasOwn(data2, name)) {
     return 'removed';
   }
-  if (!_.has(data1, name) && _.has(data2, name)) {
+  if (!Object.hasOwn(data1, name) && Object.hasOwn(data2, name)) {
     return 'added';
   }
   if (_.isEqual(data1[name], data2[name])) {
     return 'notChanged';
   }
-  if (isObject(data1[name]) && isObject(data2[name])) {
-    return 'changedTree';
-  }
-  return 'changed';
+  return (isObject(data1[name]) && isObject(data2[name])) ? 'changedTree' : 'changed';
 };
 
 const getType = (name, data1, data2, status) => {
