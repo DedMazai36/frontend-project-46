@@ -27,18 +27,14 @@ const getStringForChanged = (object, spacesCount) => `${getString(object, '- ', 
 ${getString(object, '+ ', spacesCount, 'value2')}`;
 
 const getStringForNotChangedTree = (object, spacesCount) => {
-  switch (object.status) {
-    case 'added':
-      return getString(object, '+ ', spacesCount);
-    case 'removed':
-      return getString(object, '- ', spacesCount);
-    case 'notChanged':
-      return getString(object, '  ', spacesCount);
-    case 'changed':
-      return getStringForChanged(object, spacesCount);
-    default:
-      return [];
-  }
+  const status = {
+    added: getString(object, '+ ', spacesCount),
+    removed: getString(object, '- ', spacesCount),
+    notChanged: getString(object, '  ', spacesCount),
+    changed: getStringForChanged(object, spacesCount),
+  };
+
+  return status[object.status];
 };
 
 const stylish = (internalTree, spacesCount = 2) => {
