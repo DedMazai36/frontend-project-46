@@ -13,46 +13,32 @@ const getFixturePath = () => {
 
 const readFixture = (fileName) => fs.readFileSync(path.join(getFixturePath(), fileName), { encoding: 'utf8', flag: 'r' });
 
+const getPath = (fileName) => path.join(getFixturePath(), fileName);
+
 const expectStylish = readFixture('expectForStylishTest.txt');
 const expectPlain = readFixture('expectForPlainTest.txt');
 const expectJson = readFixture('expectForJsonTest.json');
 
-test('Testing stylish width .json', () => {
-  const filePath1 = path.join(getFixturePath(), 'file1.json');
-  const filePath2 = path.join(getFixturePath(), 'file2.json');
-
-  expect(genDiff(filePath1, filePath2, 'stylish')).toBe(expectStylish);
+describe('Testing .json files', () => {
+  const filePath1 = getPath('file1.json');
+  const filePath2 = getPath('file2.json');
+  test.each([
+    ['stylish', filePath1, filePath2, expectStylish],
+    ['plain', filePath1, filePath2, expectPlain],
+    ['json', filePath1, filePath2, expectJson],
+  ])('Test %s', (formatter, path1, path2, expected) => {
+    expect(genDiff(path1, path2, formatter)).toBe(expected);
+  });
 });
 
-test('Testing stylish width .yaml', () => {
-  const filePath1 = path.join(getFixturePath(), 'file1.yaml');
-  const filePath2 = path.join(getFixturePath(), 'file2.yaml');
-
-  expect(genDiff(filePath1, filePath2, 'stylish')).toBe(expectStylish);
-});
-
-test('Testing plain width .json', () => {
-  const filePath1 = path.join(getFixturePath(), 'file1.yaml');
-  const filePath2 = path.join(getFixturePath(), 'file2.yaml');
-
-  expect(genDiff(filePath1, filePath2, 'plain')).toBe(expectPlain);
-});
-
-test('Testing plain width .yaml', () => {
-  const filePath1 = path.join(getFixturePath(), 'file1.yaml');
-  const filePath2 = path.join(getFixturePath(), 'file2.yaml');
-
-  expect(genDiff(filePath1, filePath2, 'plain')).toBe(expectPlain);
-});
-
-test('Testing json width .json', () => {
-  const filePath1 = path.join(getFixturePath(), 'file1.json');
-  const filePath2 = path.join(getFixturePath(), 'file2.json');
-  expect(genDiff(filePath1, filePath2, 'json')).toBe(expectJson);
-});
-
-test('Testing json width .yaml', () => {
-  const filePath1 = path.join(getFixturePath(), 'file1.yaml');
-  const filePath2 = path.join(getFixturePath(), 'file2.yaml');
-  expect(genDiff(filePath1, filePath2, 'json')).toBe(expectJson);
+describe('Testing .yaml files', () => {
+  const filePath1 = getPath('file1.yaml');
+  const filePath2 = getPath('file2.yaml');
+  test.each([
+    ['stylish', filePath1, filePath2, expectStylish],
+    ['plain', filePath1, filePath2, expectPlain],
+    ['json', filePath1, filePath2, expectJson],
+  ])('Test %s', (formatter, path1, path2, expected) => {
+    expect(genDiff(path1, path2, formatter)).toBe(expected);
+  });
 });
