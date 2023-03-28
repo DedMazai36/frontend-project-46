@@ -1,4 +1,4 @@
-import { isObject } from './buildTree.js';
+import isObject from '../../utils/isObject.js';
 
 const getValue = (value) => {
   if (isObject(value)) return '[complex value]';

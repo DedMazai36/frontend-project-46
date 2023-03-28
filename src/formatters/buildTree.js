@@ -1,16 +1,10 @@
 import _ from 'lodash';
+import isObject from '../../utils/isObject.js';
 
 const getNames = (data1, data2) => [
   Object.getOwnPropertyNames(data1),
   Object.getOwnPropertyNames(data2),
 ];
-
-const isObject = (object) => {
-  if (typeof object === 'object' && !Array.isArray(object) && object !== null) {
-    return true;
-  }
-  return false;
-};
 
 const getTypeForValue = (value) => {
   if (isObject(value)) {
@@ -82,5 +76,4 @@ const buildTree = (data1, data2) => {
   });
 };
 
-export { isObject };
 export default buildTree;

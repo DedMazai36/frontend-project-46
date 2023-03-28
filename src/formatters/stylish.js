@@ -1,4 +1,4 @@
-import { isObject } from './buildTree.js';
+import isObject from '../../utils/isObject.js';
 
 const getStringForSimpleObject = (object, spacesCount) => {
   const names = Object.getOwnPropertyNames(object);
