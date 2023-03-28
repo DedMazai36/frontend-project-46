@@ -54,4 +54,4 @@ ${'  '.repeat(spacesCount)}}`;
   return resultArr.join('\n');
 };
 
-export default stylish;
+export default (internalTree) => `{\n${stylish(internalTree)}\n}`;

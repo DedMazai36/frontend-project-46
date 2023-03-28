@@ -1,18 +1,15 @@
-import stylish from './stylish.js';
-import plain from './plain.js';
-import json from './json.js';
+import formatStylish from './stylish.js';
+import formatPlain from './plain.js';
+import formatJson from './json.js';
 
-const format = (internalTree, formatType) => {
-  switch (formatType) {
-    case 'stylish':
-      return `{\n${stylish(internalTree)}\n}`;
-    case 'plain':
-      return plain(internalTree);
-    case 'json':
-      return JSON.stringify(json(internalTree));
-    default:
-      return 'Unknown format name';
-  }
+const formatters = {
+  plain: formatPlain,
+  stylish: formatStylish,
+  json: formatJson,
 };
 
-export default format;
+export default (internalTree, formatType) => {
+  const format = formatters[formatType];
+
+  return format(internalTree);
+};

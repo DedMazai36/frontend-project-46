@@ -14,15 +14,13 @@ const getTypeForValue = (value) => {
 };
 
 const getStatus = (name, data1, data2) => {
-  const [namesOfData1, namesOfData2] = getNames(data1, data2);
-
-  if (namesOfData1.includes(name) && !namesOfData2.includes(name)) {
+  if (_.has(data1, name) && !_.has(data2, name)) {
     return 'removed';
   }
-  if (!namesOfData1.includes(name) && namesOfData2.includes(name)) {
+  if (!_.has(data1, name) && _.has(data2, name)) {
     return 'added';
   }
-  if (JSON.stringify(data1[name]) === JSON.stringify(data2[name])) {
+  if (_.isEqual(data1[name], data2[name])) {
     return 'notChanged';
   }
   if (isObject(data1[name]) && isObject(data2[name])) {
@@ -59,7 +57,7 @@ const getValue = (name, data1, data2, status) => {
 
 const buildTree = (data1, data2) => {
   const [namesOfData1, namesOfData2] = getNames(data1, data2);
-  const allNames = _.sortBy(_.uniq(_.concat(namesOfData1, namesOfData2).flat(2)));
+  const allNames = _.sortBy(_.union(namesOfData1, namesOfData2).flat(2));
 
   return allNames.map((name) => {
     const status = getStatus(name, data1, data2);
