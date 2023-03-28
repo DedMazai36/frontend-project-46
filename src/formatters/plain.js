@@ -9,16 +9,12 @@ const getValue = (value) => {
 };
 
 const getStringForNotChangedTree = (object, cumulativePath) => {
-  switch (object.status) {
-    case 'added':
-      return `Property '${cumulativePath}' was added with value: ${getValue(object.value)}`;
-    case 'removed':
-      return `Property '${cumulativePath}' was removed`;
-    case 'changed':
-      return `Property '${cumulativePath}' was updated. From ${getValue(object.value1)} to ${getValue(object.value2)}`;
-    default:
-      return [];
-  }
+  const status = {
+    added: `Property '${cumulativePath}' was added with value: ${getValue(object.value)}`,
+    removed: `Property '${cumulativePath}' was removed`,
+    changed: `Property '${cumulativePath}' was updated. From ${getValue(object.value1)} to ${getValue(object.value2)}`,
+  };
+  return status[object.status] ? status[object.status] : [];
 };
 
 const plain = (internalTree, path = []) => {

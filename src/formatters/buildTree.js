@@ -43,16 +43,12 @@ const getType = (name, data1, data2, status) => {
 };
 
 const getValue = (name, data1, data2, status) => {
-  switch (status) {
-    case 'added':
-      return data2[name];
-    case 'removed':
-      return data1[name];
-    case 'notChanged':
-      return data1[name];
-    default:
-      return undefined;
-  }
+  const statuses = {
+    added: data2[name],
+    removed: data1[name],
+    notChanged: data1[name],
+  };
+  return statuses[status];
 };
 
 const buildTree = (data1, data2) => {
